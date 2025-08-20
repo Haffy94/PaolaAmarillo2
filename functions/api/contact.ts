@@ -64,7 +64,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       has_api: !!env.RESEND_API_KEY,
       has_from: !!env.RESEND_FROM,
       has_to: !!env.RESEND_TO,
-      dry_run: (env as any).DRY_RUN ?? '(none)',
+      dry_run: (env as any).DRY_RUN ?? '(none)', 
     });
 
     if (missing.length) {
