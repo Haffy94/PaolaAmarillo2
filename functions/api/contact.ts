@@ -101,3 +101,27 @@ function escapeHtml(s: string) {
 async function safeText(r: Response) {
   try { return await r.text(); } catch { return `${r.status}`; }
 }
+
+// Responder preflight CORS (si tu front está en otro origen)
+export const onRequestOptions: PagesFunction = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',            // o poné tu dominio exacto
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Max-Age': '86400',
+    },
+  });
+};
+
+// Dentro de tu onRequestPost, devolvé CORS si lo necesitás:
+function json(obj: unknown, status = 200) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',            // o tu dominio exacto
+    },
+  });
+}
