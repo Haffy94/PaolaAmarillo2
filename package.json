@@ -1,0 +1,30 @@
+{
+  "name": "paola-amarillo-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 5173",
+    "convert:i18n": "node scripts/resx-to-i18n.js"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.12",
+    "i18next": "^23.11.5",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^14.1.2",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.1",
+    "wrangler": "^4.31.0",
+    "xml2js": "^0.6.2"
+  }
+}

@@ -1,0 +1,416 @@
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display:wght@700&family=Lato&display=swap');
+
+:root {
+  --color-for-bg-gray: gray;
+  --color-primary: #fafafa;                /* Blanco */
+  --color-secondary: #ffbb00;              /* Dorado */
+  --color-primary-hover: #F5C518 ;         /* Dorado claro (hover) */
+  --color-bg-light: #121212;               /* Fondo secciones claras (cards, servicios) */
+  --color-text-dark: #FFFFFF;              /* Títulos y textos claros */
+  --color-text-normal: #CCCCCC;            /* Texto principal más suave */
+  --bs-secondary-color: #999999;           /* Para placeholders u opciones secundarias */
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  min-height: 100vh;
+  background-color: #000;
+}
+
+/*Configuracion de etiquetas*/
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--color-primary);
+}
+
+h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+p, a, li, label, input, textarea, .navbar a, footer {
+  color: var(--color-secondary);
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+}
+
+p.lead {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/*Configuracion de navbar*/
+
+/* Navbar transparente con fondo semitransparente y blur */
+.navbar {
+  box-shadow: none !important;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .nav-link {
+  color: gray !important;
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--color-primary-hover) !important; /* dorado */
+}
+
+/* Botón toggler del menú móvil también transparente */
+.navbar-toggler {
+  border-color: rgba(255,255,255,0.6);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1); /* Icono blanco para fondo oscuro/transparente */
+}
+
+.navbar i {
+  color: gray;
+}
+
+/* Botón de idioma con estilo de redes sociales */
+.btn-language {
+    background-color: rgba(0, 0, 0, 0.6); /* Igual que social-floating */
+    color: gray;
+    padding: 5px 25px; /* más ancho */
+    width: 70px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px; /* leve redondeo estilo botón */
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0; /* Para que no se deforme */
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.btn-language:hover {
+    background-color: #f5c518; /* Hover dorado igual que redes */
+    color: black;
+}
+
+/* Ajuste del icono adentro */
+.btn-language i {
+    font-size: 16px;
+}
+
+
+/* Dropdown menu transparente con blur */
+.dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu .dropdown-item {
+  color: gray !important; /* Blanco inicial */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  background-color: rgba(245, 245, 245, 0.2) !important; /* Dorado claro con transparencia */
+  color: var(--color-primary-hover) !important; /* Dorado al hover/focus */
+}
+/**/
+/*configuracion de dropdown*/
+
+.dropdown-menu-transparent {
+  background-color: rgba(0, 0, 0, 0.4) !important; 
+  backdrop-filter: blur(8px);
+  border: none; 
+}
+
+.dropdown-menu-transparent .dropdown-item {
+  color: var(--color-primary);
+}
+
+.dropdown-menu-transparent .dropdown-item:hover,
+.dropdown-menu-transparent .dropdown-item:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/**/
+input, textarea {
+  background-color: #1a1a1a;
+  border: 1px solid var(--color-primary);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--bs-secondary-color);
+}
+
+.form-control:focus {
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #000;
+}
+
+.bg-light {
+  background-color: var(--color-bg-light) !important;
+}
+
+.bg-white {
+  background-color: #1a1a1a !important;
+}
+
+/*AboutMe*/
+
+/* Sección "Sobre mí" ocupa toda la altura del viewport */
+#AboutMe {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  background-color: #000;
+}
+
+/* Centrado vertical del texto dentro de la columna derecha */
+#AboutMe .col-md-7 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Imagen del perfil con sombra y recorte */
+.img-profile {
+  width: 250px;           /* mismo ancho */
+  height: 250px;          /* mismo alto */
+  object-fit: cover;      /* recorta para llenar */
+  border-radius: 50%;     /* círculo perfecto */
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* opcional */
+}
+/*NLP*/
+#Nlp {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Imagen decorativa para PNL */
+.img-nlp {
+  mask-image: linear-gradient(black 80%, transparent);
+}
+
+/*Graphology*/
+
+#Graphology {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color:rgb(184, 184, 184);
+}
+#Graphology h2, #Graphology p, #Graphology ul, #Graphology li{
+  color: gray;
+}
+
+#Graphology strong{
+  color: white;
+}
+
+/*rrhh*/
+
+#rrhh {
+  min-height: 100vh;
+  align-items: center;
+  background-color:rgb(184, 184, 184);
+}
+#rrhh h2, #rrhh p, #rrhh ul, #rrhh li{
+  color: gray;
+}
+
+#rrhh strong{
+  color: white;
+}
+
+/*administrative*/
+#administrative {
+  min-height: 60vh;
+  align-items: center;
+}
+
+
+/*migrandoEmociones*/
+
+#migrandoEmociones {
+  align-items: center center;
+  min-height: 50vh;
+  background-color:rgb(184, 184, 184);
+}
+#migrandoEmociones h2, #migrandoEmociones p, #migrandoEmociones ul, #migrandoEmociones li{
+  color: gray;
+}
+
+#migrandoEmociones strong{
+  color: white;
+}
+
+
+/**/
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Banner con imagen de fondo */
+.banner-container {
+  position: relative; /* estaba relative pero con inset lo forzabas */
+  width: 100%;
+  height: 100%; /* para que tome el alto del hero-banner */
+  background-image: url('/images/bannerPaola17.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000000;
+  filter: brightness(0.85);
+  z-index: 1;
+}
+
+/* Redes sociales a la derecha, vertical */
+.social-floating {
+  position: absolute;
+  bottom: 20px;   /* pegado abajo con un margen */
+  right: 20px;    /* pegado a la derecha */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+  transform: none;
+}
+
+.social-floating a {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: gray !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-floating a:hover {
+  background-color: #f5c518;
+  color: black;
+}
+
+/**/
+
+.banner-text {
+  position: relative;
+  
+  /* Cambia estas propiedades para mover el texto: */
+  top: 50%;                     /* distancia desde arriba */
+  /*right: 30px;    */              /* distancia desde la derecha */
+  left: 55%;                  /* alternativamente usar left */
+  bottom: 30px;                 /* o bottom */
+  transform: translate(-50%, -50%);  /* para centrar verticalmente si usás top: 50% */
+  max-width: 40%;               /* ancho máximo del texto */
+  text-align: center;            /* alineación del texto */
+  z-index: 10;
+}
+
+.banner-text h1 {
+  color: gray;
+  font-size: 7rem;
+  margin-bottom: 0.5rem;
+}
+
+.banner-text p {
+  font-size: 1.2rem;
+}
+
+/*privacy*/
+
+footer a {
+  color: var(--color-secondary) !important;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .hero-banner {
+    height: 320px; /* más bajo en celular */
+  }
+
+  .banner-text {
+    position: absolute;
+    top: 40%;                 /* más abajo */
+    left: 50%;                /* centrado */
+    transform: translate(-50%, -50%);
+    max-width: 90%;           /* ocupa más ancho */
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .banner-text h1 {
+    font-size: 4rem;          /* mucho más chico */
+  }
+
+  .banner-text p {
+    font-size: 1rem;
+  }
+
+  .social-floating {
+    bottom: 10px; /* un poco más pegado abajo */
+    right: 10px;
+    flex-direction: row; /* horizontal en mobile para no tapar */
+    gap: 8px;
+  }
+
+  .social-floating a {
+    width: 32px;
+    height: 32px;
+  }
+}
