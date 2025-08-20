@@ -34,7 +34,7 @@ export default function Layout({ children }: Props): JSX.Element {
                 <li className="nav-item"><a className="nav-link" href="#contact">{t('Contact')}</a></li>
                 <li className="nav-item dropdown ms-3">
                   <button className="btn btn-outline-primary btn-sm btn-language dropdown-toggle" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i className="fa-solid fa-globe"></i> {i18n.language?.toUpperCase() || 'ES'}
+                    <i className="fa-solid fa-globe"></i> {i18n.language?.split('-')[0]?.toUpperCase() || 'ES'}
                   </button>
                   <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                     <li><button className="dropdown-item" onClick={() => changeLanguage('es')}>Español</button></li>
