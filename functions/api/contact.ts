@@ -1,4 +1,17 @@
 // /functions/api/contact.ts
+export const onRequestGet: PagesFunction = async () => {
+  // Health check: te permite verificar que la ruta /api/contact está enganchada
+  return json({ alive: true });
+};
+
+export const onRequestOptions: PagesFunction = async () => {
+  // Preflight CORS (si tu frontend está en otro origen)
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders(),
+  });
+};
+
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     const contentType = request.headers.get('content-type') || '';
@@ -12,10 +25,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       trap = String(data.get('website') || '').trim(); // honeypot
     } else if (contentType.includes('application/json')) {
       const data = await request.json();
-      name = String(data.name || '').trim();
-      email = String(data.email || '').trim();
-      message = String(data.message || '').trim();
-      trap = String(data.website || '').trim();
+      name = String((data as any).name || '').trim();
+      email = String((data as any).email || '').trim();
+      message = String((data as any).message || '').trim();
+      trap = String((data as any).website || '').trim();
     } else if (contentType.includes('application/x-www-form-urlencoded')) {
       const data = new URLSearchParams(await request.text());
       name = String(data.get('name') || '').trim();
@@ -27,21 +40,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }
 
     // anti-spam básico
-    if (trap) return json({ ok: true }); // parecer éxito pero descartar
+    if (trap) return json({ ok: true });
 
     // validación simple
-    if (!name || !email || !message) {
-      return json({ ok: false, error: 'Faltan campos' }, 400);
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return json({ ok: false, error: 'Email inválido' }, 400);
-    }
-    // limitar tamaño del mensaje
-    if (message.length > 5000) {
-      return json({ ok: false, error: 'Mensaje demasiado largo' }, 413);
-    }
+    if (!name || !email || !message) return json({ ok: false, error: 'Faltan campos' }, 400);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: false, error: 'Email inválido' }, 400);
+    if (message.length > 5000) return json({ ok: false, error: 'Mensaje demasiado largo' }, 413);
 
-    // armar payload para Resend
     const subject = `Nuevo contacto: ${name}`;
     const text = `Nombre: ${name}\nEmail: ${email}\n\n${message}`;
     const html = `
@@ -64,17 +69,20 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         to: toList,
         subject,
         text,
-        html
+        html,
+        reply_to: email, // para poder responderle directo al visitante
       }),
     });
 
     if (!r.ok) {
-      const err = await safeText(r);
-      return json({ ok: false, error: `Resend error: ${err}` }, 502);
+      const errBody = await r.text().catch(() => '');
+      console.error('Resend error:', r.status, errBody);
+      return json({ ok: false, error: `Resend error: ${errBody || r.status}` }, 502);
     }
 
     return json({ ok: true });
   } catch (e: any) {
+    console.error('Function error:', e?.message);
     return json({ ok: false, error: e?.message || 'Error inesperado' }, 500);
   }
 };
@@ -90,38 +98,15 @@ interface Env {
 function json(obj: unknown, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json', ...corsHeaders() }
   });
+}
+function corsHeaders() {
+  // Si tu front está en el MISMO dominio, podés devolver {} y listo.
+  return { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST,GET,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' };
 }
 function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, m => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[m]!));
-}
-async function safeText(r: Response) {
-  try { return await r.text(); } catch { return `${r.status}`; }
-}
-
-// Responder preflight CORS (si tu front está en otro origen)
-export const onRequestOptions: PagesFunction = async () => {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',            // o poné tu dominio exacto
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      'Access-Control-Max-Age': '86400',
-    },
-  });
-};
-
-// Dentro de tu onRequestPost, devolvé CORS si lo necesitás:
-function json(obj: unknown, status = 200) {
-  return new Response(JSON.stringify(obj), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',            // o tu dominio exacto
-    },
-  });
 }
